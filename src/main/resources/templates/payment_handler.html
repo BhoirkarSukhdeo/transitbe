@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+h1,h3 {text-align: center;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.container {
+margin-top: 15rem;
+align-items: center;
+}
+</style>
+<body>
+<script>
+function getTimerValue() {
+	var initial_val = 30;
+setInterval(function() {
+
+     initial_val = initial_val - 1;
+
+  if (initial_val < 0) {
+    clearInterval(x);
+  }
+  document.getElementById("timerValue").innerHTML = initial_val;
+}, 1000);
+}
+
+getTimerValue();
+</script>
+<div class="container">
+    <h1>Your transaction is in progress. Please  wait... </h1>
+    <h3>Do not close or refresh this page while your transaction is being confirmed. You will be redirected in <span id="timerValue"></span></h3>
+</div>
+</body>
+</html>

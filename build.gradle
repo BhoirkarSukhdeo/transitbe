@@ -1,0 +1,113 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.3.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+	id 'war'
+	id 'jacoco'
+}
+
+group = 'com.axisbank'
+version = '0.0.1-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+mainClassName="com.axisbank.transit.TransitApplication"
+ext.microserviceBaseName = 'TRANSIT-APP'
+ext.globalVersion = '0.0.1'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+ext.microserviceDesc = 'Transit App Service'
+
+
+repositories {
+	mavenCentral()
+}
+
+jacoco {
+	toolVersion = "0.8.6"
+	reportsDir = file("$buildDir/jacoco")
+}
+
+test {
+	finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+	dependsOn test
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: ['**/filters/**'])
+		}))
+	}
+}
+
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web")
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation('org.postgresql:postgresql')
+//	compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.3.1.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.3.1.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.3.1.RELEASE'
+
+	// authentication dependencies
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.3.1.RELEASE'
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+	//	H2 Db dependencies
+	compile group: 'com.h2database', name: 'h2'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.3.4.RELEASE'
+
+	// swagger dependencies
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	compile group: 'com.google.guava', name: 'guava', version: '27.1-jre'
+
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-cache
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient'
+
+	compileOnly 'org.projectlombok:lombok:1.18.12'
+	annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+	// https://mvnrepository.com/artifact/redis.clients/jedis
+	compile group: 'redis.clients', name: 'jedis'
+
+	implementation group: "com.twilio.sdk", name: "twilio", version: "7.55.0"
+
+	compile("org.hibernate:hibernate-spatial")
+	// junit dependencies
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.3.3.RELEASE'
+	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	compile group: 'org.json', name: 'json', version: '20200518'
+	compile group: 'in.juspay', name: 'expresscheckout', version: '1.1.2'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.4.0'
+	testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.7'
+	testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.7'
+	compile group: 'com.oracle.database.jdbc', name: 'ojdbc8'
+	compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.0'
+	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.0-rc1'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.0-rc1'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.12.0-rc1'
+	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+	compile('org.hibernate:hibernate-envers:5.4.25.Final')
+
+
+}
+
+test {
+	useJUnitPlatform()
+}
